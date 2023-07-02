@@ -9,17 +9,19 @@ static const char *fonts[]          = { "monospace:size=10" };
 static const char dmenufont[]       = "monospace:size=10";
 static const char col_fg[]	    = "#e4e4ef";
 static const char col_black1[]	    = "#181818";
-static const char col_black2[]	    = "#101010";
 static const char col_yellow[]	    = "#ffdd33";
-static const char col_gray1[]       = "#222222";
-static const char col_gray2[]       = "#444444";
-static const char col_gray3[]       = "#bbbbbb";
 static const char col_gray4[]       = "#eeeeee";
 static const char col_cyan[]        = "#005577";
 static const char *colors[][3]      = {
-	/*               fg         bg         border   */
-	[SchemeNorm] = { col_fg, col_black1, col_yellow },
-	[SchemeSel]  = { col_fg, col_yellow,  col_yellow  },
+	/*                    fg         bg         border   */
+	[SchemeNorm] =     { col_fg, col_black1, col_yellow },
+	[SchemeSel]  =     { col_fg, col_black1, col_yellow },
+	[SchemeStatus] =   { col_fg, col_black1, col_yellow },
+	[SchemeTagsSel] =  { col_black1, col_yellow, col_yellow },
+	[SchemeTagsNorm] = { col_fg, col_black1, col_yellow },
+	[SchemeInfoSel] =  { col_fg, col_black1, col_yellow },
+	[SchemeInfoNorm] = { col_fg, col_black1, col_yellow },
+
 };
 
 /* tagging */
