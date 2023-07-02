@@ -1748,9 +1748,11 @@ toggletag(const Arg *arg)
 	if (!selmon->sel)
 		return;
 	newtags = selmon->sel->tags ^ (arg->ui & TAGMASK);
-	selmon->tagset[selmon->seltags] = newtagset;
-	focus(NULL);
-	arrange(selmon);
+	if (newtags) {
+		selmon->sel->tags = newtags;
+		focus(NULL);
+		arrange(selmon);
+	}
 }
 
 void
@@ -1758,11 +1760,9 @@ toggleview(const Arg *arg)
 {
 	unsigned int newtagset = selmon->tagset[selmon->seltags] ^ (arg->ui & TAGMASK);
 
-	if (newtagset) {
-		selmon->tagset[selmon->seltags] = newtagset;
-		focus(NULL);
-		arrange(selmon);
-	}
+	selmon->tagset[selmon->seltags] = newtagset;
+	focus(NULL);
+	arrange(selmon);
 }
 
 void
