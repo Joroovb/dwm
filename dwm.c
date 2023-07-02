@@ -308,12 +308,7 @@ applyrules(Client *c)
 		XFree(ch.res_class);
 	if (ch.res_name)
 		XFree(ch.res_name);
-	if (c->tags & TAGMASK)
-		c->tags = c->tags & TAGMASK;
-	else if (c->mon->tagset[c->mon->seltags])
-		c->tags = c->mon->tagset[c->mon->seltags];
-	else
-		c->tags = 1;
+	c->tags = c->tags & TAGMASK ? c->tags & TAGMASK : c->mon->tagset[c->mon->seltags];
 }
 
 int
@@ -641,7 +636,7 @@ createmon(void)
 	Monitor *m;
 
 	m = ecalloc(1, sizeof(Monitor));
-	m->tagset[0] = m->tagset[1] = startontag ? 1 : 0;
+	m->tagset[0] = m->tagset[1] = 1;
 	m->mfact = mfact;
 	m->nmaster = nmaster;
 	m->showbar = showbar;
@@ -1431,7 +1426,7 @@ sendmon(Client *c, Monitor *m)
 	detach(c);
 	detachstack(c);
 	c->mon = m;
-	c->tags = (m->tagset[m->seltags] ? m->tagset[m->seltags] : 1);
+	c->tags = m->tagset[m->seltags]; /* assign tags of target monitor */
 	attach(c);
 	attachstack(c);
 	focus(NULL);
@@ -1760,9 +1755,11 @@ toggleview(const Arg *arg)
 {
 	unsigned int newtagset = selmon->tagset[selmon->seltags] ^ (arg->ui & TAGMASK);
 
-	selmon->tagset[selmon->seltags] = newtagset;
-	focus(NULL);
-	arrange(selmon);
+	if (newtagset) {
+		selmon->tagset[selmon->seltags] = newtagset;
+		focus(NULL);
+		arrange(selmon);
+	}
 }
 
 void
@@ -2056,7 +2053,7 @@ updatewmhints(Client *c)
 void
 view(const Arg *arg)
 {
-	if (arg->ui && (arg->ui & TAGMASK) == selmon->tagset[selmon->seltags])
+	if ((arg->ui & TAGMASK) == selmon->tagset[selmon->seltags])
 		return;
 	selmon->seltags ^= 1; /* toggle sel tagset */
 	if (arg->ui & TAGMASK)
