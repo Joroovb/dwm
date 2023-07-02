@@ -19,7 +19,7 @@ static const char col_cyan[]        = "#005577";
 static const char *colors[][3]      = {
 	/*               fg         bg         border   */
 	[SchemeNorm] = { col_fg, col_black1, col_yellow },
-	[SchemeSel]  = { col_fg, col_black1,  col_yellow  },
+	[SchemeSel]  = { col_fg, col_yellow,  col_yellow  },
 };
 
 /* tagging */
